@@ -1,0 +1,86 @@
+/*
+Template Name: Xacton - Admin & Dashboard Template
+Author: Myra Studio
+Version: 1.0.0
+File: App Css
+*/
+
+/*
+1. Left sidenav
+2. Header
+3. Footer
+4. Avatar
+5. Helper
+6. Demos
+7. Scrollbar
+8. Sweetalert
+9. Morris
+10. Sparkline-chart
+11. Datatable
+12. Calendar
+13.  Maps
+14. Select2
+15. Datepicker
+16. Daterange
+17. Waves
+18. Auth
+19. Pricing
+*/
+
+
+//Fonts
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap');
+
+//Core files
+@import "functions";
+@import "variables";
+@import "variables";
+@import "mixins";
+
+// Structure
+/* 1. Left sidenav */
+@import "menu";
+/* 2. Header */
+@import "header";
+/* 3. Footer */
+@import "footer";
+
+// Components
+/* 4. Avatar */
+@import "avatar";
+/* 5. Helper */
+@import "helper";
+/* 6. Demos */
+@import "demos";
+/* 7. Waves */
+@import "print";
+
+// Plugins
+/* 8. Scrollbar */
+@import "custom-scrollbar";
+/* 9. Sweetalert */
+@import "sweetalert";
+/* 10. Morris */
+@import "morris";
+/* 11. Sparkline-chart */
+@import "sparkline-chart";
+/* 12. Datatable */
+@import "datatable";
+/* 13. Calendar */
+@import "calendar";
+/* 14. Maps */
+@import "maps";
+/* 15. Select2 */
+@import "select2";
+/* 16. Datepicker */
+@import "datepicker";
+/* 17. Daterange */
+@import "daterange";
+/* 18. Waves */
+@import "waves";
+
+// Pages
+/* 19. Auth*/
+@import "auth";
+/* 20. Pricing */
+@import "pricing";
