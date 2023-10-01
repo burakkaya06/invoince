@@ -9,7 +9,7 @@ class CustomerController extends Controller
 {
 
 
-    protected $customerService;
+    protected CustomerService $customerService;
 
     public function __construct(CustomerService $customerService)
     {
@@ -18,9 +18,9 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $customers = $this->customerService->getAllCustomers();
+        $customers = $this->customerService->getAllCustomers( $request);
         return view('customer.index', compact('customers'));
     }
 
