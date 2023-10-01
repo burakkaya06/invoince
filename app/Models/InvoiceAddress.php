@@ -11,7 +11,7 @@ class InvoiceAddress extends Model
 
     protected $fillable = [
         'additional_line',
-        'street_address',
+        'street_adress',
         'zip_code',
         'city',
         'state',

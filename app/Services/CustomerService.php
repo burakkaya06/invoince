@@ -66,7 +66,6 @@ class CustomerService
         $specialField = new SpecialField($request->only(['custom_fields1', 'custom_fields2']));
         $customer->specialField()->save($specialField);
 
-        return redirect()->route('customers.index')->with('success', 'Customer has been created successfully.');
 
     }
 

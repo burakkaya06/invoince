@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/customers', [CustomerController::class, 'index'])->name('customers');
+Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
 Route::post('/customers', [CustomerController::class, 'store'])->name('customers.store');
 
 
