@@ -170,7 +170,7 @@
                                 <label class="col-form-label col-md-2" for="skonto_percent">Skonto</label>
                                 <div class="col-md-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="skonto_percent"
+                                        <input type="number" class="form-control" id="skonto_percent"
                                                name="skonto_percent" required>
                                         <div class="input-group-append">
                                             <span class="input-group-text">%</span>
@@ -191,7 +191,7 @@
                             <div class="form-group row mb-3">
                                 <label class="col-form-label col-md-2" for="payment_window">Payment Window</label>
                                 <div class="col-md-3">
-                                    <input type="text" class="form-control" id="payment_window" name="payment_window"
+                                    <input type="number" class="form-control" id="payment_window" name="payment_window"
                                            required>
                                 </div>
                             </div>
@@ -201,8 +201,8 @@
                                 <div class="col-md-3">
                                     <select class="form-control" id="vat" name="vat" required>
                                         <option value="">Please select</option>
-                                        <option value="yes">Yes</option>
-                                        <option value="no">No</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
                                     </select>
                                 </div>
                             </div>

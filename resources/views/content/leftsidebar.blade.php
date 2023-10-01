@@ -28,7 +28,7 @@
                     <a href="index.html" class="waves-effect"><i class="feather-user"></i><span>Orders</span></a>
                 </li>
                 <li>
-                    <a href="{{ route('customers') }}" class="waves-effect"><i class="fas fa-address-book"></i><span>Customers</span></a>
+                    <a href="{{ route('customers.index') }}" class="waves-effect"><i class="fas fa-address-book"></i><span>Customers</span></a>
                 </li>
 
 
