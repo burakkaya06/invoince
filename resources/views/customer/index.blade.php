@@ -262,6 +262,10 @@
 
                     </div>
                 </div>
+                @component('content.search')
+                    @slot('url', route('customers.index'))
+                @endcomponent
+
             </div>
             <!-- end page title -->
 
