@@ -15,7 +15,7 @@ class CustomerService
     public function saveCustomer(Request $request)
     {
         $data = $request->validate([
-            'customer_id' => 'required|string',
+            'customer_id_name' => 'required|string',
             'company_name' => 'required|string',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
@@ -67,6 +67,77 @@ class CustomerService
         $customer->specialField()->save($specialField);
 
 
+    }
+
+    public function getAllCustomers()
+    {
+        $customers = Customer::select('id', 'company_name','customer_id_name')
+            ->with('shippingAddress')
+            ->orderBy('id', 'desc')
+            ->paginate(5);
+        return $customers;
+    }
+
+    public function getCustomerById($id)
+    {
+        $customer = Customer::with('shippingAddress')
+            ->with('invoiceAddress')
+            ->with('paymentTerm')
+            ->with('specialField')
+            ->findOrFail($id);
+        return $customer;
+    }
+
+    public function deleteCustomer($id)
+    {
+        $customer = Customer::findOrFail($id);
+        $customer->delete();
+    }
+
+    public function updateCustomer(Request $request, $id)
+    {
+
+        $customer = Customer::findOrFail($id);
+
+        $customer->update($request->only('company_name', 'first_name', 'last_name'));
+
+        if($customer->shippingAddress) {
+            $customer->shippingAddress->update($request->only(
+                's_company_name',
+                's_first_name',
+                's_last_name',
+                's_additional_line',
+                's_street_adress',
+                's_zip_code',
+                's_city',
+                's_state',
+                's_country'));
+        }
+
+        if($customer->invoiceAddress) {
+            $customer->invoiceAddress->update($request->only(
+                'additional_line',
+                'street_adress',
+                'zip_code',
+                'city',
+                'state',
+                'country'));
+        }
+        if($customer->paymentTerm) {
+            $customer->paymentTerm->update($request->only(
+                'skonto_percent',
+                'skonto_days',
+                'payment_window',
+                'vat',
+                'vat_number'));
+        }
+
+        if($customer->specialField) {
+            $customer->specialField->update($request->only(
+                'custom_fields1',
+                'custom_fields2'));
+        }
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
     }
 
 }

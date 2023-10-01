@@ -20,7 +20,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('customer.index');
+        $customers = $this->customerService->getAllCustomers();
+        return view('customer.index', compact('customers'));
     }
 
     /**
@@ -43,35 +44,32 @@ class CustomerController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $customer = $this->customerService->getCustomerById($id);
+        return view('customer.edit', compact('customer'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-        //
+       $this->customerService->updateCustomer($request, $id);
+        return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function delete(string $id)
     {
-        //
+        $this->customerService->deleteCustomer($id);
+
+        return redirect()->route('customers.index')->with('success', 'Customer has been deleted successfully.');
     }
+
+
+
+
 }

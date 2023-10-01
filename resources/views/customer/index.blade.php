@@ -24,9 +24,9 @@
                         @csrf
                         <label for="name" style="font-weight: bold">Invoice Adress</label>
                         <div class="form-group row mb-3">
-                            <label for="customer_id" class="col-form-label col-md-2">Customer Id</label>
+                            <label for="customer_id_name" class="col-form-label col-md-2">Customer Id</label>
                             <div class="col-md-10">
-                                <input type="text" class="form-control" id="customer_id" name="customer_id" required>
+                                <input type="text" class="form-control" id="customer_id_name" name="customer_id_name" required>
                             </div>
                         </div>
 
@@ -246,7 +246,7 @@
 
     <div class="page-content">
         <div class="container-fluid">
-
+            @include('content.success')
             <!-- start page title -->
             <div class="row">
                 <div class="col-12">
@@ -282,38 +282,31 @@
 
 
                                 <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>System Architect</td>
-                                    <td>Edinburgh</td>
-                                    <td>
-                                        <a href="#" class="btn btn-warning"><i class="feather-edit"></i></a>
-                                        <button type="submit" class="btn btn-danger"><i class="feather-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Garrett Winters</td>
-                                    <td>Accountant</td>
-                                    <td>Tokyo</td>
-                                    <td>
-                                        <a href="#" class="btn btn-warning"><i class="feather-edit"></i></a>
-                                        <button type="submit" class="btn btn-danger"><i class="feather-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Ashton Cox</td>
-                                    <td>Junior Technical Author</td>
-                                    <td>San Francisco</td>
-                                    <td>
-                                        <a href="#" class="btn btn-warning"><i class="feather-edit"></i></a>
-                                        <button type="submit" class="btn btn-danger"><i class="feather-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                @foreach($customers as $customer)
+                                    <tr>
+                                        <td>{{ $customer->customer_id_name }}</td>
+                                        <td>{{ $customer->company_name }}</td>
+                                        <td>{{ $customer->shippingAddress->s_street_adress ?? 'Address not available' }}</td>
+                                        <td>
+                                            <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-warning"><i class="feather-edit"></i></a>
+                                            <form action="{{ route('customer.delete', $customer->id) }}" method="POST" style="display:inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger"><i class="feather-trash"></i></button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+
+
+
+
+
                                 </tbody>
                             </table>
+                            <!-- Sayfalama Linkleri -->
+                            {{ $customers->links('vendor.pagination.bootstrap-4') }}
 
                         </div> <!-- end card body-->
                     </div> <!-- end card -->
