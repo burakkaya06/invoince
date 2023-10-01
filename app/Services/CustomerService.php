@@ -69,12 +69,22 @@ class CustomerService
 
     }
 
-    public function getAllCustomers()
+    public function getAllCustomers(Request $request)
     {
-        $customers = Customer::select('id', 'company_name','customer_id_name')
-            ->with('shippingAddress')
-            ->orderBy('id', 'desc')
-            ->paginate(5);
+        $query = $request->query('query');
+
+        if($query) {
+            $customers = Customer::select('id', 'company_name', 'customer_id_name')
+                ->with('shippingAddress')
+                ->where('customer_id_name', 'like', "%{$query}%")
+                ->orderBy('id', 'desc')
+                ->paginate(5)->appends(request()->query());
+        } else {
+            $customers = Customer::select('id', 'company_name', 'customer_id_name')
+                ->with('shippingAddress')
+                ->orderBy('id', 'desc')
+                ->paginate(5);
+        }
         return $customers;
     }
 

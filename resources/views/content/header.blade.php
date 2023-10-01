@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{asset('vertical/assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('vertical/assets/css/icons.min.css')}}">
     <link rel="stylesheet" href="{{asset('vertical/assets/css/theme.min.css')}}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 </head>
