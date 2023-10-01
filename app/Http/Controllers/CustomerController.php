@@ -39,7 +39,7 @@ class CustomerController extends Controller
 
         $this->customerService->saveCustomer($request);
 
-       // return redirect()->route('some.route')->with('success', 'Customer created successfully!');
+        return redirect()->route('customers.index')->with('success', 'Customer created successfully!');
 
     }
 

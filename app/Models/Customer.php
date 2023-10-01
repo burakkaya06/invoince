@@ -31,4 +31,9 @@ class Customer extends Model
     {
         return $this->hasOne(SpecialField::class);
     }
+
+    public function invoiceAddress()
+    {
+        return $this->hasOne(InvoiceAddress::class);
+    }
 }
