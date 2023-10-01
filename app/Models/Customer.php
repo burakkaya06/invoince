@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'customer_id',
+        'customer_id_name',
         'company_name',
         'first_name',
         'last_name',
@@ -35,5 +35,15 @@ class Customer extends Model
     public function invoiceAddress()
     {
         return $this->hasOne(InvoiceAddress::class);
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($customer) {
+            $customer->shippingAddress()->delete();
+            $customer->paymentTerm()->delete();
+            $customer->specialField()->delete();
+            $customer->invoiceAddress()->delete();
+        });
     }
 }
