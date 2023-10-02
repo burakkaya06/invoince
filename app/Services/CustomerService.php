@@ -150,4 +150,11 @@ class CustomerService
         return redirect()->route('customers.index')->with('success', 'Customer updated successfully');
     }
 
+    public function checkCustomerId(Request $request) {
+        $customerId = $request->input('customer_id_name');
+        $customer = Customer::where('customer_id_name', $customerId)->first();
+
+        return response()->json(['exists' => !!$customer]);
+    }
+
 }

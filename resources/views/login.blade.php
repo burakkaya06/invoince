@@ -34,15 +34,20 @@
                                 <div class="p-5">
                                     <h1 class="h5 mb-1">Welcome Back!</h1>
                                     <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
-                                    <form class="user">
+                                    @if ($errors->has('email'))
+                                        <div class="alert alert-danger" id="error-alert">
+                                            {{ $errors->first('email') }}
+                                        </div>
+                                    @endif
+                                    <form class="user" method="POST" action="{{ route('login') }}">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address">
+                                            <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail" placeholder="Email Address" required>
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" name="password" id="exampleInputPassword" placeholder="Password" required>
                                         </div>
-                                        <a href="" class="btn btn-success btn-block waves-effect waves-light"> Log In </a>
-
+                                        <button type="submit" class="btn btn-success btn-block waves-effect waves-light">Log In</button>
                                     </form>
 
                                     <div class="row mt-4">
@@ -65,6 +70,7 @@
 <!-- end page -->
 
 <!-- jQuery  -->
+
 <script src="{{asset('vertical/assets/js/jquery.min.js')}}"></script>
 <script src="{{asset('vertical/assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('vertical/assets/js/metismenu.min.js')}}"></script>
@@ -72,6 +78,11 @@
 <script src="{{asset('vertical/assets/js/simplebar.min.js')}}"></script>
 <!-- App js -->
 <script src="{{asset('vertical/assets/js/theme.js')}}"></script>
+<script>
+    $(document).ready(function() {
+        $('#error-alert').delay(1000).fadeOut('slow');
+    });
+</script>
 
 </body>
 

@@ -34,6 +34,15 @@
 
                 <li><a  href="{{ route('product.index') }}" class=" waves-effect"><i class="feather-aperture"></i><span>Product</span></a></li>
 
+                <li>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="waves-effect">
+                        <i class="feather-log-out"></i><span>Logout</span>
+                    </a>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->
