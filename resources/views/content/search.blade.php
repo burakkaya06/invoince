@@ -8,6 +8,7 @@
                     type="text"
                     id="search"
                     name="query"
+                    autocomplete="off"
                     class="form-control search-input"
                     placeholder="Search..."
                 />

@@ -69,6 +69,10 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')->with('success', 'Customer has been deleted successfully.');
     }
 
+    public function checkId(Request $request) {
+        return $this->customerService->checkCustomerId($request);
+    }
+
 
 
 
