@@ -32,8 +32,7 @@
                 </li>
 
 
-                <li><a href="calendar.html" class=" waves-effect"><i
-                            class="feather-aperture"></i><span>Product</span></a></li>
+                <li><a  href="{{ route('product.index') }}" class=" waves-effect"><i class="feather-aperture"></i><span>Product</span></a></li>
 
             </ul>
         </div>

@@ -1,12 +1,6 @@
 @extends('content.app')
 @section('create-new')
-    <div class="dropdown d-none d-sm-inline-block">
-        <button type="button" class="btn header-item waves-effect" data-toggle="modal"
-                data-target="#createCustomerModal">
-            <i class="mdi mdi-plus"></i> Create New Customer
-        </button>
 
-    </div>
 @endsection
 @section('content')
     <div class="modal fade" id="createCustomerModal" tabindex="-1" role="dialog"
@@ -252,19 +246,11 @@
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
                         <h4 class="mb-0 font-size-18">Customers</h4>
-
-                        <div class="page-title-right">
-                            <ol class="breadcrumb m-0">
-                                <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                                <li class="breadcrumb-item active">Customers</li>
-                            </ol>
-                        </div>
-
+                        @component('content.search')
+                            @slot('title', 'New Customer')
+                        @endcomponent
                     </div>
                 </div>
-                @component('content.search')
-                    @slot('url', route('customers.index'))
-                @endcomponent
 
             </div>
             <!-- end page title -->
@@ -292,11 +278,13 @@
                                         <td>{{ $customer->company_name }}</td>
                                         <td>{{ $customer->shippingAddress->s_street_adress ?? 'Address not available' }}</td>
                                         <td>
-                                            <a href="{{ route('customer.edit', $customer->id) }}" class="btn btn-warning"><i class="feather-edit"></i></a>
+                                            <a href="{{ route('customer.edit', $customer->id) }}" ><i  style="font-size: 20px; color: black" class="fas fa-edit" ></i></a>
                                             <form action="{{ route('customer.delete', $customer->id) }}" method="POST" style="display:inline-block;">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger"><i class="feather-trash"></i></button>
+                                                <button type="submit" style="border: none; background: transparent; padding: 0; outline: none;">
+                                                    <i class="feather-trash-2"  style="font-size: 24px;"></i>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
