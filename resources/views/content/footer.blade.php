@@ -2,7 +2,7 @@
 
 
 <!-- jQuery  -->
-<script src="{{asset('vertical/assets/js/jquery.min.js')}}"></script>
+<!-- <script src="{{asset('vertical/assets/js/jquery.min.js')}}"></script> -->
 <script src="{{asset('vertical/assets/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('vertical/assets/js/metismenu.min.js')}}"></script>
 <script src="{{asset('vertical/assets/js/waves.js')}}"></script>

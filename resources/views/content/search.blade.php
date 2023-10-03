@@ -21,7 +21,7 @@
             type="button"
             class="btn header-item waves-effect mr-2"
             data-toggle="modal"
-            data-target="#createCustomerModal"
+            data-target="{{ $parameter ?? '#createCustomerModal' }}"
             style="background-color: #000; color: #fff; border-radius: 50px; height: 40px;margin-left: 10px">
             {{$title}}
         </button>

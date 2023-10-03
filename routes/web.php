@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HtmlController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +38,17 @@ Route::post('/products' , [ ProductController::class , 'store' ])->name('product
 Route::get('/product/show/{id}' , [ ProductController::class , 'show' ])->name('product.edit');
 Route::delete('/product/{id}' , [ ProductController::class , 'delete' ])->name('product.delete');
 Route::put('/product/update/{id}' , [ ProductController::class , 'update' ])->name('product.update');
+
+Route::get('/html' , [ HtmlController::class , 'index' ])->name('html.index');
+
+Route::get('/orders' , [ OrderController::class , 'index' ])->name('order.index');
+Route::post('/orders' , [ OrderController::class , 'store' ])->name('order.store');
+Route::get('/order/detail/{id}' , [ OrderController::class , 'detail' ])->name('order.detail');
+Route::get('/order/show/{id}' , [ OrderController::class , 'show' ])->name('order.edit');
+Route::delete('/order/{id}' , [ OrderController::class , 'delete' ])->name('order.delete');
+Route::get('/orders/custom-search' , [ OrderController::class , 'custom' ])->name('order.custom');
+Route::get('/orders/create-order-id' , [ OrderController::class , 'createOrderId' ])->name('order.createorderid');
+
 
 
 

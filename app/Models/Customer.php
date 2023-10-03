@@ -37,6 +37,8 @@ class Customer extends Model
         return $this->hasOne(InvoiceAddress::class);
     }
 
+
+
     protected static function booted()
     {
         static::deleting(function ($customer) {
