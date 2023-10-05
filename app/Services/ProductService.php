@@ -56,4 +56,44 @@ class ProductService
         $customer->delete();
     }
 
+    public function searchProduct(Request $request) {
+        $query = $request->input('q');
+        $customer = Product::where('product_id_name', 'like', "%{$query}%")
+            ->orWhere('product_name', 'like', "%{$query}%")->get();
+
+        return $this->handleSearchProductData($customer);
+    }
+
+    public function getProduct($id) {
+        $product = Product::findOrFail($id);
+        return $this->getProductDetail($product);
+    }
+
+    private function getProductDetail($product) {
+        $product = $product->toArray();
+        return [
+            'id' => $product['id'],
+            'pid' => $product['product_id_name'],
+            'name' => $product['product_name'],
+            'price' => $product['price'],
+            'description' => $product['description'],
+        ];
+    }
+
+    private function handleSearchProductData($products) {
+        $arr = [];
+        $items = [];
+        $products = $products->toArray();
+        foreach ($products as $product) {
+            $items [] = [
+                'id' => $product['id'],
+                'text' => $product['product_name']
+            ];
+        }
+        return [
+            'items' => $items,
+            'total_count' => count($items)
+        ];
+    }
+
 }
