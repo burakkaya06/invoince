@@ -78,8 +78,8 @@ class OrderController extends Controller
     }
 
     public function detail(Request $request) {
-        $order = $this->orderService->getDetail($request->id);
-        return view('order.detail', compact('order'));
+        $orderDetail = $this->orderService->getDetail($request->id);
+        return view('order.detail', compact('orderDetail'));
     }
 
 }

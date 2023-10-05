@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HtmlController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\OrderController;
@@ -34,6 +35,8 @@ Route::get('/customer/show/{id}' , [ CustomerController::class , 'show' ])->name
 Route::post('/customer/check-customer-id', [CustomerController::class, 'checkId'])->name('customer.checkid');
 
 Route::get('/products' , [ ProductController::class , 'index' ])->name('product.index');
+Route::get('/products/custom-search' , [ ProductController::class , 'custom' ])->name('product.custom');
+Route::get('/products/get-detail' , [ ProductController::class , 'get' ])->name('product.getdetail');
 Route::post('/products' , [ ProductController::class , 'store' ])->name('products.store');
 Route::get('/product/show/{id}' , [ ProductController::class , 'show' ])->name('product.edit');
 Route::delete('/product/{id}' , [ ProductController::class , 'delete' ])->name('product.delete');
@@ -48,6 +51,11 @@ Route::get('/order/show/{id}' , [ OrderController::class , 'show' ])->name('orde
 Route::delete('/order/{id}' , [ OrderController::class , 'delete' ])->name('order.delete');
 Route::get('/orders/custom-search' , [ OrderController::class , 'custom' ])->name('order.custom');
 Route::get('/orders/create-order-id' , [ OrderController::class , 'createOrderId' ])->name('order.createorderid');
+
+//Documents
+Route::post('/documents/confirmation' , [ DocumentController::class , 'indexConfirmation' ])->name('document.confirmation');
+Route::get('/documents/search-customer' , [ DocumentController::class , 'searchCustomer' ])->name('document.searchcustomer');
+
 
 
 
