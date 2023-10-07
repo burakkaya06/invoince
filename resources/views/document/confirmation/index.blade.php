@@ -1,5 +1,18 @@
 @extends('content.app')
 @section('content')
+    <style>
+
+        .editable-price {
+            width: auto; /* Varsayılan genişlik */
+            display: inline-block; /* inline öğeler üzerinde genişlik belirleyebilmek için */
+            transition: width 0.3s; /* Pürüzsüz bir genişleme animasyonu için */
+        }
+
+        .editable-price:focus {
+            width: 100px; /* Öğe odaklandığında istediğiniz genişlik değerini burada belirleyin */
+        }
+
+    </style>
 
     <!-- Customer search modal -->
     <div class="modal fade" id="createOrderModal" role="dialog"
@@ -256,6 +269,7 @@
 
         <script>
 
+
             $('#createOrderModal').on('shown.bs.modal', function (e) {
                 $('.js-example-basic-single').select2({
 
@@ -287,7 +301,29 @@
 
             $(document).ready(function () {
 
-                $(document).on('click', '.quantity-increase, .quantity-decrease', function() {
+                $(document).on('input', '.editable-price', function () {
+                    $(this).focus();
+                    validateNumericInput(this);
+                    // Yeni fiyat değerini al
+                    let newPrice = parseFloat(this.textContent);
+                    let currentRow = $(this).closest('tr');
+                    let quantity = parseFloat(currentRow.find('.quantity-value').text());
+                    let newTotal = newPrice * quantity;
+
+                    currentRow.find('.product-total').text('€ ' + newTotal.toFixed(2));
+                    updateTotalCost()
+
+                });
+
+                function validateNumericInput(element) {
+                    if (element.textContent.trim() === "" || parseFloat(element.textContent) === 0) {
+                        element.textContent = element.getAttribute('data-original-price');
+                    } else {
+                        element.textContent = element.textContent.replace(/[^0-9\.]/g, '');
+                    }
+                }
+
+                $(document).on('click', '.quantity-increase, .quantity-decrease', function () {
                     let row = $(this).closest('tr');
                     let quantityCell = row.find('.quantity-value');
                     let currentQuantity = parseInt(quantityCell.text());
@@ -315,7 +351,7 @@
 
                 $("#datePicker").datepicker({
                     dateFormat: "dd-mm-yy",
-                    onClose: function(selectedDate) {
+                    onClose: function (selectedDate) {
                         // Datepicker kapandığında tarihi güncelle ve inputu tekrar gizle
                         $("#dateDisplay").text(selectedDate);
                         $("#datePicker").hide();
@@ -324,14 +360,14 @@
                 });
 
                 // Tarih metni üzerine tıklandığında
-                $("#dateDisplay").on('click', function() {
+                $("#dateDisplay").on('click', function () {
                     $(this).hide();
                     $("#datePicker").show().focus();
                 });
 
                 $("#datePicker2").datepicker({
                     dateFormat: "dd-mm-yy",
-                    onClose: function(selectedDate) {
+                    onClose: function (selectedDate) {
                         // Datepicker kapandığında tarihi güncelle ve inputu tekrar gizle
                         $("#dateDisplay2").text(selectedDate);
                         $("#datePicker2").hide();
@@ -340,10 +376,11 @@
                 });
 
                 // Tarih metni üzerine tıklandığında
-                $("#dateDisplay2").on('click', function() {
+                $("#dateDisplay2").on('click', function () {
                     $(this).hide();
                     $("#datePicker2").show().focus();
                 });
+
 
                 function updateTotalCost() {
                     let netTotalCost = 0;
@@ -381,13 +418,17 @@
                             let existingRow = $('#producttable tbody tr[data-product-id="' + responseData.pid + '"]');
 
                             if (existingRow.length > 0) {
+                                debugger
                                 // Ürün zaten tabloda var, sadece miktarını ve toplamını güncelle
-                                let currentQuantity = parseInt(existingRow.find('td:eq(3)').text());
+                                let currentQuantity = parseInt(existingRow.find('td:eq(3) .quantity-value').text());
                                 let newQuantity = currentQuantity + count;
-                                let newTotal = newQuantity * parseFloat(responseData.price);
+                                let currentPrice = parseFloat(existingRow.find('td:eq(4) .editable-price').text());
+                                let priceToUse = (currentPrice !== parseFloat(responseData.price)) ? currentPrice : parseFloat(responseData.price);
+                                let newTotal = newQuantity * priceToUse;
 
-                                existingRow.find('td:eq(3)').text(newQuantity);
-                                existingRow.find('td:eq(5)').text("€ " + newTotal.toFixed(2));
+
+                                existingRow.find('td:eq(3) .quantity-value').text(newQuantity);
+                                existingRow.find('td.product-total').text('€ ' + newTotal.toFixed(2));
                                 updateTotalCost();
                             } else {
                                 // Ürün tabloda yok, yeni bir satır ekleyin
@@ -404,8 +445,10 @@
     <span class="quantity-value">${count}</span>
     <button class="quantity-increase" style="margin-left:5px;">+</button>
     </td>
-        <td style="border-style: none;">€ ${responseData.price}</td>
-        <td style="border-style: none;">€ ${total.toFixed(2)}</td>
+    <td style="border-style: none;">
+       <span>€</span> <span class="editable-price" contenteditable="true" data-original-price="${responseData.price}">${responseData.price}</span>
+    </td>
+       <td style="border-style: none;" class="product-total">€ ${total.toFixed(2)}</td>
     </tr>
 `;
 
