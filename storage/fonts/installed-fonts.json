@@ -1,0 +1,18 @@
+{
+    "font awesome 5 brands": {
+        "normal": "font_awesome_5_brands_normal_2ca222117f926a2ca2ae96b02c800520"
+    },
+    "font awesome 5 free": {
+        "normal": "\/var\/www\/html\/invoince\/storage\/fonts\/font_awesome_5_free_normal_142d334de457f97d900172e14ebee91f",
+        "900": "font_awesome_5_free_900_599d2bc1d20a1bfb81b2a7a7679539b3"
+    },
+    "material design icons": {
+        "normal": "material_design_icons_normal_073edb2c62dafaff1b402050a922cd0f"
+    },
+    "dripicons-v2": {
+        "normal": "dripicons_v2_normal_f7ae81780fbf6eea5cd6f01a08ac2106"
+    },
+    "feather": {
+        "normal": "feather_normal_9667e6e285f732f0eb0c012662e3eb95"
+    }
+}

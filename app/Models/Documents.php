@@ -13,6 +13,11 @@ class Documents extends Model
         'customer_id',
         'type',
         'status',
+        'creation_date',
+        'delivery_date',
+        'total_amount',
+        'total_amount_net',
+        'total_vat',
     ];
 
 }

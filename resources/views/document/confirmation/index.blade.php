@@ -12,6 +12,34 @@
             width: 100px; /* Öğe odaklandığında istediğiniz genişlik değerini burada belirleyin */
         }
 
+        @media print {
+            .print-only {
+                display: none !important;
+            }
+
+            select {
+                display: none;
+            }
+
+            .print-value {
+                display: inline !important;
+            }
+
+            /* Input için */
+            input {
+                border: none !important; /* Çerçeveyi kaldır */
+            }
+
+            #delivery_note {
+                width: 1000px !important;
+                height: 1490px !important;
+                position: relative !important;
+                margin: 0 auto !important;
+            }
+
+
+        }
+
     </style>
 
     <!-- Customer search modal -->
@@ -99,176 +127,271 @@
                 </div>
 
             </div>
-            <div id="delivery_note"
-                 style="width: 794px; height: 1123px; margin: auto; border: 1px solid black;  position: relative;">
-                <!-- First Section -->
-                <div>
-                    <div class="col-12">
-                        <div class="col-6 mt-5">
-                            <div id="upname">{{$detail['company_name']}} - {{$detail['invoince_adress']}}
-                                - {{$detail['invoince_zip_code']}} {{$detail['invoince_city']}}</div>
-                            <br><br>
-                            <h5 id="firstsectionname">{{$detail['name']}}</h5>
-                            <h5 id="firstsectioninvoince_adress2">{{$detail['invoince_adress2']}}</h5>
-                            <h5 id="firstsectionstatecountry">{{$detail['invoince_state']}}
-                                , {{$detail['invoince_country']}}</h5>
-
-                            <button
-                                type="button"
-                                class="btn header-item waves-effect mr-2"
-                                data-toggle="modal" data-target="#createOrderModal"
-                                style="background-color: black; color: white; height: 35px">Choose Customer
-                            </button>
-                        </div>
-                    </div>
-                    <br><br>
-                    <div class="col-12">
-                        <div class="col-5" style="margin-left: auto;">
-                            <table style="width:100%;">
-                                <tr>
-                                    <td style="text-align:left;">Date</td>
-                                    <td style="text-align:left; font-weight:bold;" id="dateCell">
-                                        <span id="dateDisplay">{{$detail['date']}}</span>
-                                        <input type="text" id="datePicker" style="display:none;">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left;">Customer</td>
-                                    <td id="customer"
-                                        style="text-align:left; font-weight:bold;">{{$detail['customer']}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left;">Confirmation Number</td>
-                                    <td style="text-align:left;">{{$detail['order_id_name']}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left;">Delivery Date</td>
-                                    <td style="text-align:left; font-weight:bold;" id="dateCell">
-                                        <span id="dateDisplay2">{{$detail['delivery_date']}}</span>
-                                        <input type="text" id="datePicker2" style="display:none;">
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left;">Custom Field1</td>
-                                    <td id="custom_fields1" style="text-align:left;">{{$detail['custom_fields1']}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align:left;">Custom Field2</td>
-                                    <td id="custom_fields2" style="text-align:left;">{{$detail['custom_fields2']}}</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-12" style="padding-top: 100px">
-                    <h1>Confirmation {{$detail['order_id_name']}}</h1>
-                    <hr style="border-color: black; border-width: 1px; border-style: solid;">
-                    <table id="producttable" style="width:100%; text-align:center; border-collapse: collapse;">
-                        <thead>
-                        <tr>
-                            <th style="border-style: none;text-align: left">POS</th>
-                            <th style="border-style: none;text-align: left">Product ID</th>
-                            <th style="border-style: none;text-align: left">Description</th>
-                            <th style="border-style: none;">Quantity</th>
-                            <th style="border-style: none;">Price</th>
-                            <th style="border-style: none;">Total</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                    <button style="background-color: black; color: white; margin-top: 10px" data-toggle="modal"
-                            data-target="#addProductModal">Add Product
-                    </button>
-                    <hr style="border-color: black; border-width: 1px; border-style: solid;">
-
-
-                    <div class="col-12">
-                        <div class="col-8" style="float: left;">
-                            <h3 id="vatstring"> {{$detail['vatstring']}}</h3>
-                        </div>
-                        <div class="col-4" style="float: right;">
-                            <table style="width:100%; text-align:center; border-collapse: collapse;">
-                                <tr>
-                                    <td style="border-style: none; text-align: left;">Net Total</td>
-                                    <td id="totalCost" style="border-style: none; text-align: right;">
-                                        € {{$detail['total']}}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-style: none; text-align: left;">Vat {{$detail['vat_ratio']}}%</td>
-                                    <td id="withVat" style="border-style: none; text-align: right;">
-                                        € {{$detail['vat']}}</td>
-                                </tr>
-                            </table>
-                            <hr style="border-color: black; border-width: 1px; border-style: solid;">
-                            <table style="width:100%; text-align:center; border-collapse: collapse;">
-                                <tr>
-                                    <td style="border-style: none; text-align: left; color: black;font-weight:bold;">
-                                        Total
-                                    </td>
-                                    <td id="total_with_vat"
-                                        style="border-style: none; text-align: right;color: black;font-weight:bold;">
-                                        € {{$detail['total_with_vat']}}
-                                    </td>
-                                </tr>
-
-                            </table>
-                        </div>
-
-                    </div>
-                    <div class="col-12">
-                        <div class=""></div>
-                    </div>
-
-
-                </div>
-
-                <!-- vat number -->
-                <div class="vat-option" style="position: absolute; bottom: 10px; left: -10px; width: 100%;">
-                    <div class="col-12">
+            <div id="print_controller">
+                <div id="delivery_note" class="delivery_note"
+                     style="width: 794px; height: 1123px; margin: auto; border: 1px solid black;  position: relative;">
+                    <!-- First Section -->
+                    <div>
                         <div class="col-12">
-                            <div class="col-4" style="display: flex; align-items: center">
-                                <div class="col-6">
-                                    <label style="margin-right: 10px;">Vat Option</label>
-                                </div>
-                                <div class="col-6">
-                                    <select class="l" id="vat" name="vat" required>
-                                        <option value="">Please select</option>
-                                        <option value="1" {{ $detail['vat_option'] == 1 ? 'selected' : '' }}>Yes
-                                        </option>
-                                        <option value="0" {{ $detail['vat_option'] == 0 ? 'selected' : '' }}>No</option>
-                                    </select>
-                                </div>
+                            <div class="col-6 mt-5">
+                                <div id="upname">{{$detail['company_name']}} - {{$detail['invoince_adress']}}
+                                    - {{$detail['invoince_zip_code']}} {{$detail['invoince_city']}}</div>
+                                <br><br>
+                                <h5 id="firstsectionname">{{$detail['name']}}</h5>
+                                <h5 id="firstsectioninvoince_adress2">{{$detail['invoince_adress2']}}</h5>
+                                <h5 id="firstsectionstatecountry">{{$detail['invoince_state']}}
+                                    , {{$detail['invoince_country']}}</h5>
+
+                                <button
+                                    type="button"
+                                    class="btn header-item waves-effect mr-2 print-only"
+                                    data-toggle="modal" data-target="#createOrderModal"
+                                    style="background-color: black; color: white; height: 35px">Choose Customer
+                                </button>
                             </div>
                         </div>
+                        <br><br>
                         <div class="col-12">
-                            <div class="col-4" style="display: flex; align-items: center;">
-                                <div class="col-6">
-                                    <label style="margin-right: 10px;">Vat Number</label>
-                                </div>
-                                <div class="col-3">
-                                    <input type="text" class="l" id="vat_number" name="vat_number"
-                                           value="{{$detail['vat_number']}}" readonly>
-                                </div>
+                            <div class="col-5" style="margin-left: auto;">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <td style="text-align:left;">Date</td>
+                                        <td style="text-align:left; font-weight:bold;" id="dateCell">
+                                            <span id="dateDisplay">{{$detail['date']}}</span>
+                                            <input type="text" id="datePicker" style="display:none;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">Customer</td>
+                                        <td id="customer"
+                                            style="text-align:left; font-weight:bold;">{{$detail['customer']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">Confirmation Number</td>
+                                        <td id="orderIdName" style="text-align:left;">{{$detail['order_id_name']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">Delivery Date</td>
+                                        <td style="text-align:left; font-weight:bold;" id="dateCell">
+                                            <span id="dateDisplay2">{{$detail['delivery_date']}}</span>
+                                            <input type="text" id="datePicker2" style="display:none;">
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">Custom Field1</td>
+                                        <td id="custom_fields1"
+                                            style="text-align:left;">{{$detail['custom_fields1']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:left;">Custom Field2</td>
+                                        <td id="custom_fields2"
+                                            style="text-align:left;">{{$detail['custom_fields2']}}</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div>
 
+
+                    <div class="col-12" style="padding-top: 100px">
+                        <h1>Confirmation {{$detail['order_id_name']}}</h1>
+                        <hr style="border-color: black; border-width: 1px; border-style: solid;">
+                        <table id="producttable" style="width:100%; text-align:center; border-collapse: collapse;">
+                            <thead>
+                            <tr>
+                                <th style="border-style: none;text-align: left">POS</th>
+                                <th style="border-style: none;text-align: left">Product ID</th>
+                                <th style="border-style: none;text-align: left">Description</th>
+                                <th style="border-style: none;">Quantity</th>
+                                <th style="border-style: none;">Price</th>
+                                <th style="border-style: none;">Total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($detail['products'] as $key => $product)
+                                <tr data-product-id="{{$product['product_id_name']}}">
+                                    <td style="border-style: none; text-align: left;">{{$key+1}}</td>
+                                    <td style="border-style: none; text-align: left">{{$product['product_id_name']}}</td>
+                                    <td style="border-style: none; text-align: left">{{$product['description']}}</td>
+                                    <td style="border-style: none;">
+                                        <button class="quantity-decrease print-only" style="margin-right:5px;">-
+                                        </button>
+                                        <span class="quantity-value">{{$product['quantity']}}</span>
+                                        <button class="quantity-increase print-only" style="margin-left:5px;">+</button>
+                                    </td>
+                                    <td style="border-style: none;">
+                                        <span>€</span> <span class="editable-price" contenteditable="true"
+                                                             data-original-price="{{$product['price']}}">{{$product['price']}}</span>
+                                    </td>
+                                    <td style="border-style: none;" class="product-total">€ {{$product['total']}}</td>
+                                </tr>
+                            @endforeach
+
+                            </tbody>
+                        </table>
+                        <button class="print-only" style="background-color: black; color: white; margin-top: 10px"
+                                data-toggle="modal"
+                                data-target="#addProductModal">Add Product
+                        </button>
+                        <hr style="border-color: black; border-width: 1px; border-style: solid;">
+
+
+                        <div class="col-12">
+                            <div class="col-8" style="float: left;">
+                                <h3 id="vatstring"> {{$detail['vatstring']}}</h3>
+                            </div>
+                            <div class="col-4" style="float: right;">
+                                <table style="width:100%; text-align:center; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="border-style: none; text-align: left;">Net Total</td>
+                                        <td id="totalCost" style="border-style: none; text-align: right;">
+                                            € {{$detail['total']}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-style: none; text-align: left;">Vat {{$detail['vat_ratio']}}
+                                            %
+                                        </td>
+                                        <td id="withVat" style="border-style: none; text-align: right;">
+                                            € {{$detail['vat']}}</td>
+                                    </tr>
+                                </table>
+                                <hr style="border-color: black; border-width: 1px; border-style: solid;">
+                                <table style="width:100%; text-align:center; border-collapse: collapse;">
+                                    <tr>
+                                        <td style="border-style: none; text-align: left; color: black;font-weight:bold;">
+                                            Total
+                                        </td>
+                                        <td id="total_with_vat"
+                                            style="border-style: none; text-align: right;color: black;font-weight:bold;">
+                                            € {{$detail['total_with_vat']}}
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                        </div>
+                        <div class="col-12">
+                            <div class=""></div>
+                        </div>
+
+
+                    </div>
+
+                    <!-- vat number -->
+                    <div class="vat-option" style="position: absolute; bottom: 10px; left: -10px; width: 100%;">
+                        <div class="col-12">
+                            <div class="col-12">
+                                <div class="col-4" style="display: flex; align-items: center">
+                                    <div class="col-6">
+                                        <label style="margin-right: 10px;">Vat Option</label>
+                                    </div>
+                                    <div class="col-6">
+                                        <select class="l" id="vat" name="vat" required onchange="updatePrintSpan(this)">
+                                            <option value="">Please select</option>
+                                            <option value="1" {{ $detail['vat_option'] == 1 ? 'selected' : '' }}>Yes
+                                            </option>
+                                            <option value="0" {{ $detail['vat_option'] == 0 ? 'selected' : '' }}>No
+                                            </option>
+                                        </select>
+                                        <!-- Yazdırma için ekstra span; varsayılan olarak gizli -->
+                                        <span class="print-value"
+                                              style="display: none;">{{ $detail['vat_option'] == 1 ? 'Yes' : ($detail['vat_option'] == 0 ? 'No' : 'Please select') }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="col-4" style="display: flex; align-items: center;">
+                                    <div class="col-6">
+                                        <label style="margin-right: 10px;">Vat Number</label>
+                                    </div>
+                                    <div class="col-3">
+                                        <input type="text" class="l" id="vat_number" name="vat_number"
+                                               value="{{$detail['vat_number']}}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
 
             </div>
             <div style="width: 794px; height: auto; margin: auto; margin-top: 20px">
 
-                <button type="button" style="float: right;" class="btn btn-success">Create Document</button>
+                <button id="saveDocument" type="button" style="float: right; margin-left: 10px;"
+                        class="btn btn-success print-only">{{$detail['editable'] != true ? 'Create Document' : 'Edit Document'}}
+                </button>
+                <button type="button" style="float: right;" class="btn btn-primary print-only" id="printButton">Print
+                </button>
             </div>
         </div>
 
         <script>
 
+            $('#saveDocument').click(function () {
+                debugger
+
+                let products = [];
+                let data = [];
+                $('#producttable tbody tr').each(function () {
+                    let row = $(this);
+                    let product = {
+                        productId: row.data('product-id'),
+                        pos: row.find('td:eq(0)').text().trim(),
+                        description: row.find('td:eq(2)').text().trim(),
+                        quantity: row.find('.quantity-value').text().trim(),
+                        price: row.find('.editable-price').text().trim(),
+                        total: row.find('.product-total').text().trim()
+                    };
+                    products.push(product);
+                });
+                let date = $('#dateDisplay').text().trim();
+                let deliveryDate = $('#dateDisplay2').text().trim();
+                let customer = $('#customer').text().trim();
+                let orderId = $('#orderIdName').text().trim();
+                let totalAmount = $('#total_with_vat').text().trim();
+                let netTotal = $('#totalCost').text().trim();
+                let vat = $('#withVat').text().trim();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/documents/save-document-confirmation",
+                    data: {
+                        products: products,
+                        date: date,
+                        deliveryDate: deliveryDate,
+                        customer: customer,
+                        orderId: orderId,
+                        type: 'confirmation',
+                        totalAmount: totalAmount,
+                        netTotal: netTotal,
+                        vat: vat
+                    },
+                    success: function (response) {
+                        console.log("Veri başarıyla gönderildi!");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("Bir hata oluştu!", errorThrown);
+                    }
+                });
+            });
+
+            function updatePrintSpan(selectElement) {
+                let selectedText = selectElement.options[selectElement.selectedIndex].text;
+                let siblingSpan = selectElement.nextElementSibling;
+                if (siblingSpan && siblingSpan.classList.contains('print-value')) {
+                    siblingSpan.textContent = selectedText;
+                }
+            }
 
             $('#createOrderModal').on('shown.bs.modal', function (e) {
                 $('.js-example-basic-single').select2({
@@ -441,9 +564,9 @@
         <td style="border-style: none; text-align: left">${responseData.pid}</td>
         <td style="border-style: none; text-align: left">${responseData.description}</td>
         <td style="border-style: none;">
-    <button class="quantity-decrease" style="margin-right:5px;">-</button>
+    <button class="quantity-decrease print-only" style="margin-right:5px;">-</button>
     <span class="quantity-value">${count}</span>
-    <button class="quantity-increase" style="margin-left:5px;">+</button>
+    <button class="quantity-increase print-only" style="margin-left:5px;">+</button>
     </td>
     <td style="border-style: none;">
        <span>€</span> <span class="editable-price" contenteditable="true" data-original-price="${responseData.price}">${responseData.price}</span>
@@ -520,8 +643,8 @@
                 function updatePage(detail) {
                     $('#upname').text(detail.company_name + ' - ' + detail.invoince_adress + ' - ' + detail.invoince_zip_code + ' ' + detail.invoince_city)
                     $('#firstsectionname').text(detail.name)
-                    $('#firstsectioninvoince_adress2').text(detail.firstsectioninvoince_adress2)
-                    $('#firstsectionstatecountry').text(detail.invoince_state + ' ' + detail.invoince_country)
+                    $('#firstsectioninvoince_adress2').text(detail.invoince_adress2)
+                    $('#firstsectionstatecountry').text(detail.invoince_state + ' , ' + detail.invoince_country)
                     $('#customer').text(detail.customer)
                     $('#custom_fields1').text(detail.custom_fields1)
                     $('#custom_fields2').text(detail.custom_fields2)
@@ -530,6 +653,36 @@
                     $("#vat").val(detail.vat_option);
                     $('#createOrderModal').modal('hide');
                 }
+
+                // $('#printButton').on('click', function() {
+                //   window.print();
+                //});
+            });
+
+            $('#printButton').click(function () {
+                // Sayfa içeriğini al (Örnek olarak body'nin tüm içeriğini alıyoruz)
+                let content = $('#delivery_note').html();
+                debugger
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: '/documents/print',
+                    method: 'POST',
+                    data: {content: content},
+                    xhrFields: {
+                        responseType: 'blob'
+                    },
+                    success: function (response) {
+                        let blob = new Blob([response], {type: 'application/pdf'});
+                        let link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.target = '_blank';
+                        link.click();
+                    }
+                });
             });
 
 
