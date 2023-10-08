@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\DocumentService;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -29,5 +30,16 @@ class DocumentController extends Controller
     public function searchCustomer(Request $request)
     {
         return $this->documentService->searchCustomer($request);
+    }
+
+    public function printContent(Request $request) {
+        $content = $request->input('content');
+        $pdf = PDF::loadView('document.print', compact('content'));
+        return $pdf->stream();
+    }
+
+    public function saveDocumentConfirmation(Request $request) {
+        $this->documentService->saveDocument($request);
+        return redirect()->route('order.detail')->with('success' , 'Document created successfully!');
     }
 }
