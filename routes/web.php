@@ -55,6 +55,9 @@ Route::get('/orders/create-order-id' , [ OrderController::class , 'createOrderId
 //Documents
 Route::post('/documents/confirmation' , [ DocumentController::class , 'indexConfirmation' ])->name('document.confirmation');
 Route::get('/documents/search-customer' , [ DocumentController::class , 'searchCustomer' ])->name('document.searchcustomer');
+Route::post('/documents/print' , [ DocumentController::class , 'printContent' ])->name('document.print');
+Route::post('/documents/save-document-confirmation' , [ DocumentController::class , 'saveDocumentConfirmation' ])->name('document.save.confirmation');
+
 
 
 

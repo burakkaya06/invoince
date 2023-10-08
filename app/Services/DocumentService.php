@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Http\Enum\DocumentType;
+use App\Http\Enum\OrderStatus;
 use App\Models\Customer;
+use App\Models\DocumentProducts;
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Documents;
 
@@ -88,27 +91,109 @@ class DocumentService
         $returnData['invoince_adress2'] = $customer['invoice_address']['street_adress'];
 
         if(count($document) > 0) {
-            $returnData['date'] = date('d.m.Y', strtotime($document['creation_date']));
+            $returnData['date'] = date('d.m.Y', strtotime($document[0]['creation_date']));
         } else {
             $returnData['date'] = date('d.m.Y', strtotime('now'));
         }
 
         $returnData['customer'] = $customer['customer_id_name'];
         $returnData['order_id_name'] = $order['order_id_name'];
-        //todo delivery date nereden girilecek
-        $returnData['delivery_date'] = date('d.m.Y', strtotime('now'));
+        $returnData['delivery_date'] = count($document) > 0 ? date('d.m.Y', strtotime($document[0]['delivery_date'])) : date('d.m.Y', strtotime('now'));
         $returnData['custom_fields1'] = $customer['special_field']['custom_fields1'];
         $returnData['custom_fields2'] = $customer['special_field']['custom_fields2'];
         $returnData['vatstring'] = $customer['payment_term']['skonto_days'].' Days '.$customer['payment_term']['skonto_percent'].'%  Skonto, '.$customer['payment_term']['payment_window'].' Days Net';
-        $returnData['product'] = [];
-        $returnData['total'] = 0;
-        $returnData['vat'] = 0;
+        $returnData['total'] = count($document) > 0 ? $document[0]['total_amount_net'] : 0;
+        $returnData['vat'] = count($document) > 0 ? $document[0]['total_vat'] : 0;
         $returnData['vat_ratio'] = 19;
-        $returnData['total_with_vat'] = 0;
+        $returnData['total_with_vat'] = count($document) > 0 ? $document[0]['total_amount'] : 0;
         $returnData['vat_option'] = $customer['payment_term']['vat'];
         $returnData['vat_number'] = $customer['payment_term']['vat_number'];
+        $returnData['products'] = [];
+        $returnData['editable'] = false;
+        if(count($document) > 0) {
+            $returnData['editable']                                                                                                                            = true;
+            // Todo B++ burası her döküman için product ayrı olacaksa döküman id kullanılmalı
+            $products = DocumentProducts::where('order_id_name', $order['order_id_name'])->get();
+            if($products)  {
+                foreach ($products as $product) {
+                    $returnData['products'][] = [
+                        'product_id' => $product->product_id,
+                        'price' => $product->price,
+                        'description' => $product->description,
+                        'quantity' => $product->quantity,
+                        'total' => $product->total_price,
+                        'product_id_name' => $product->product_id_name,
+                    ];
+                }
+            }
+        }
         return $returnData;
 
+    }
+
+    public function saveDocument(Request $request)
+    {
+        $order = Order::where('order_id_name',$request->orderId)->first();
+        $document = Documents::where('order_id', $order->id)
+            ->where('type', DocumentType::CONFIRMATION)
+            ->first();
+        $customer  =   Customer::where('customer_id_name', $request->customer)->first();
+        $order->customer_id = $customer->id;
+        $order->save();
+        if($document == null) {
+            $document = new Documents();
+            $document->status = OrderStatus::PENDING;
+            $document->order_id_name = $order->order_id_name;
+            $document->order_id = $order->id;
+            $document->customer_id = $customer->id;
+            $document->type = DocumentType::CONFIRMATION;
+            $document->creation_date = date('Y-m-d H:i:s',strtotime($request->date));
+            $document->delivery_date = date('Y-m-d H:i:s',strtotime($request->deliveryDate));
+            $totalAmount = str_replace('€', '', $request->totalAmount);
+            $document->total_amount = floatval($totalAmount);
+            $totalAmountNet = str_replace('€', '', $request->netTotal);
+            $document->total_amount_net = floatval($totalAmountNet);
+            $totalVat = str_replace('€', '', $request->vat);
+            $document->total_vat = floatval($totalVat);
+        }else {
+            $document->status = OrderStatus::PENDING;
+            $document->customer_id = $customer->id;
+            $document->creation_date = date('Y-m-d H:i:s',strtotime($request->date));
+            $document->delivery_date = date('Y-m-d H:i:s',strtotime($request->deliveryDate));
+            $totalAmount = str_replace('€', '', $request->totalAmount);
+            $document->total_amount = floatval($totalAmount);
+            $totalAmountNet = str_replace('€', '', $request->netTotal);
+            $document->total_amount_net = floatval($totalAmountNet);
+            $totalVat = str_replace('€', '', $request->vat);
+            $document->total_vat = floatval($totalVat);
+        }
+        $document->save();
+
+        /**
+         * Saving Product
+         */
+        DocumentProducts::where('document_id', $document->id)->delete();
+        if(!empty($request->products)) {
+
+            $products =  $request->products;
+
+            foreach ($products as $product) {
+
+                $documentProducts = new DocumentProducts();
+                $documentProducts->document_id = $document->id;
+                $vtProduct = Product::where('product_id_name', $product['productId'])->first();
+                $documentProducts->product_id = $vtProduct->id;
+                $documentProducts->product_id_name = $product['productId'];
+                $documentProducts->description = $product['description'];
+                $documentProducts->quantity = $product['quantity'];
+                $documentProducts->price = $product['price'];
+                $documentProducts->total_price = str_replace('€', '', $product['total']);
+                $documentProducts->order_id_name =  $order->order_id_name;
+                $documentProducts->type = DocumentType::CONFIRMATION;
+                $documentProducts->save();
+
+            }
+        }
 
 
     }
