@@ -25,6 +25,12 @@
     <!-- jQuery UI -->
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+    <!-- SweetAlert2 CSS dosyası -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert2 JS dosyası -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 
 
 

@@ -322,14 +322,20 @@
             <div style="width: 794px; height: auto; margin: auto; margin-top: 20px">
 
                 <button id="saveDocument" type="button" style="float: right; margin-left: 10px;"
-                        class="btn btn-success print-only">{{$detail['editable'] != true ? 'Create Document' : 'Edit Document'}}
+                        class="btn btn-success print-only"
+                    {{ $detail['editable'] !=true ? 'value=0' : 'value=1' }}>
+                    {{ $detail['editable'] !=true ? 'Create Document' : 'Edit Document' }}
                 </button>
+
                 <button type="button" style="float: right;" class="btn btn-primary print-only" id="printButton">Print
                 </button>
             </div>
         </div>
 
         <script>
+
+            var baseOrderId = 0;
+            debugger
 
             $('#saveDocument').click(function () {
                 debugger
@@ -362,6 +368,8 @@
                     }
                 });
 
+                debugger
+
                 $.ajax({
                     type: "POST",
                     url: "/documents/save-document-confirmation",
@@ -374,10 +382,24 @@
                         type: 'confirmation',
                         totalAmount: totalAmount,
                         netTotal: netTotal,
-                        vat: vat
+                        vat: vat,
+                        noNew: $("#saveDocument").val()
                     },
                     success: function (response) {
-                        console.log("Veri başarıyla gönderildi!");
+                        $('#saveDocument').text('Edit Document');
+                        debugger
+                        baseOrderId = response.order_id;
+                        Swal.fire({
+                            type: 'success',
+                            title: 'Success',
+                            text: 'Successfully recorded',
+                            confirmButtonClass: 'btn btn-confirm mt-2',
+                        })
+
+                        setTimeout(function () {
+                            window.location.href = "/order/detail/" + baseOrderId;
+                        }, 2000);
+
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("Bir hata oluştu!", errorThrown);
@@ -654,33 +676,69 @@
                     $('#createOrderModal').modal('hide');
                 }
 
-                // $('#printButton').on('click', function() {
-                //   window.print();
-                //});
+                $('#printButton').on('click', function () {
+
+                    let orderId = $('#orderIdName').text().trim();
+                    debugger
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    debugger
+                    $.ajax({
+                        url: '/documents/print/control',
+                        method: 'POST',
+                        data: {order_id_name: orderId, confirmation_type: 'confirmation'},
+                        success: function (response) {
+                            window.print();
+                        },
+                        error: function (error) {
+                            debugger
+                            Swal.fire({
+                                type: 'error',
+                                title: 'Oops...',
+                                text: 'No document found to print!',
+                                confirmButtonClass: 'btn btn-confirm mt-2',
+                            })
+                        }
+                    });
+                });
             });
 
-            $('#printButton').click(function () {
+            $('#printButton2').click(function () {
                 // Sayfa içeriğini al (Örnek olarak body'nin tüm içeriğini alıyoruz)
-                let content = $('#delivery_note').html();
+                let orderId = $('#orderIdName').text().trim();
                 debugger
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
+                debugger
                 $.ajax({
                     url: '/documents/print',
                     method: 'POST',
-                    data: {content: content},
+                    data: {order_id_name: orderId},
                     xhrFields: {
                         responseType: 'blob'
                     },
                     success: function (response) {
+                        debugger
                         let blob = new Blob([response], {type: 'application/pdf'});
                         let link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
                         link.target = '_blank';
                         link.click();
+                    },
+                    error: function (error) {
+                        debugger
+                        Swal.fire({
+                            type: 'error',
+                            title: 'Oops...',
+                            text: 'No document found to print!',
+                            confirmButtonClass: 'btn btn-confirm mt-2',
+                        })
                     }
                 });
             });

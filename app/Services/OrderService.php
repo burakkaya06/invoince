@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Customer;
+use App\Models\Documents;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,24 @@ class OrderService
             ->select('orders.*', 'customers.company_name as customer_name')
             ->where('orders.id', $id)
             ->first();
-        return $order;
+
+        $orderDetails = [];
+        $orderDetail = Documents::where('order_id', $id)->get();
+        foreach ($orderDetail as $od) {
+            $orderDetails [] = [
+                'id' => $od->id,
+                'order_id' => $od->order_id,
+                'type' => $od->type,
+                'status' => $od->status,
+                'creation_date' => $od->creation_date,
+                'amount' => $od->total_amount,
+                'customer_name' => ''
+            ];
+        }
+        return [
+            'order' => $order,
+            'orderDetails' => $orderDetails
+        ];
     }
 
     public function createOrderId() {
