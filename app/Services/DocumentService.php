@@ -231,4 +231,9 @@ class DocumentService
 
     }
 
+    public function deleteDocument(Request $request) {
+        $document = Documents::where('id' , $request->id)->delete();
+        $documentProducts = DocumentProducts::where('document_id' , $request->id)->delete();
+    }
+
 }

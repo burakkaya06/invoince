@@ -53,6 +53,8 @@ Route::get('/orders/custom-search' , [ OrderController::class , 'custom' ])->nam
 Route::get('/orders/create-order-id' , [ OrderController::class , 'createOrderId' ])->name('order.createorderid');
 
 //Documents
+Route::post('/document/delete' , [ DocumentController::class , 'deleteDocument' ])->name('document.delete');
+
 Route::post('/documents/confirmation' , [ DocumentController::class , 'indexConfirmation' ])->name('document.confirmation');
 Route::post('/documents/confirmation-edit' , [ DocumentController::class , 'editConfirmation' ])->name('document.confirmation.edit');
 Route::get('/documents/search-customer' , [ DocumentController::class , 'searchCustomer' ])->name('document.searchcustomer');

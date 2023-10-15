@@ -95,9 +95,10 @@
                                                     <i style="font-size: 20px; color: black" class="fas fa-edit"></i>
                                                 </button>
                                             </form>
-                                            <form action="{{ route('order.delete', $orderDetails['id']) }}" method="POST" style="display: inline-block;">
+                                            <form action="{{ route('document.delete')}}" method="POST" style="display: inline-block;">
                                                 @csrf
-                                                @method('DELETE')
+                                                <input type="hidden" name="id" value={{$orderDetails['id']}}>
+                                                <input type="hidden" name="order_id_route" value={{$orderDetail['order']->id}}>
                                                 <button type="submit" style="border: none; background: transparent; padding: 0; outline: none;">
                                                     <i class="feather-trash-2" style="font-size: 24px;"></i>
                                                 </button>
