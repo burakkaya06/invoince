@@ -22,6 +22,13 @@ class DocumentController extends Controller
         return redirect()->route('order.detail')->with('success' , 'Confirmation created successfully!');
     }
 
+    public function deleteDocument(Request $request)
+    {
+        $this->documentService->deleteDocument($request);
+        $orderId = $request->order_id_route;
+        return redirect()->route('order.detail',['id' => $orderId])->with('success' , 'Confirmation deleted successfully!');
+    }
+
     public function indexConfirmation(Request $request)
     {
         $detail = $this->documentService->indexConfirmation($request);
