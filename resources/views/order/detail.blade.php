@@ -15,9 +15,10 @@
                         <h1 class="mb-0">Order {{   $orderDetail['order']->order_id_name}}</h1>
                         <div class="d-flex align-items-center">
                             <button onclick="window.history.back();"
-                                type="button"
-                                class="btn header-item waves-effect mr-2"
-                                style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;"> Back
+                                    type="button"
+                                    class="btn header-item waves-effect mr-2"
+                                    style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;">
+                                Back
 
                             </button>
                         </div>
@@ -37,17 +38,21 @@
                                 Create Information
                             </button>
                         </form>
-
+                        <form action="{{ route('document.delivery') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value={{$orderDetail['order']->id}}>
+                            <button
+                                type="submit"
+                                class="btn header-item waves-effect mr-2"
+                                style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;">
+                                Create Delivery Note
+                            </button>
+                        </form>
                         <button
                             type="button"
                             class="btn header-item waves-effect mr-2"
-                            style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;"> Create Delivery Note
-
-                        </button>
-                        <button
-                            type="button"
-                            class="btn header-item waves-effect mr-2"
-                            style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;"> Create Invoince
+                            style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;"> Create
+                            Invoince
 
                         </button>
                     </div>
@@ -88,18 +93,37 @@
                                         <td>{{ $orderDetails['status'] }}</td>
 
                                         <td>
-                                            <form action="{{ route('document.confirmation.edit') }}" method="POST" style="display: inline-block;">
+                                            @if($orderDetails['type'] == 'confirmation')
+                                                <form action="{{ route('document.confirmation.edit') }}" method="POST"
+                                                      style="display: inline-block;">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value={{$orderDetails['id']}}>
+                                                    <button
+                                                        style="border: none; background: transparent; padding: 0; outline: none;">
+                                                        <i style="font-size: 20px; color: black"
+                                                           class="fas fa-edit"></i>
+                                                    </button>
+                                                </form>
+                                            @elseif($orderDetails['type'] == 'delivery')
+                                                <form action="{{ route('document.delivery.edit') }}" method="POST"
+                                                      style="display: inline-block;">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value={{$orderDetails['id']}}>
+                                                    <button
+                                                        style="border: none; background: transparent; padding: 0; outline: none;">
+                                                        <i style="font-size: 20px; color: black"
+                                                           class="fas fa-edit"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            <form action="{{ route('document.delete')}}" method="POST"
+                                                  style="display: inline-block;">
                                                 @csrf
                                                 <input type="hidden" name="id" value={{$orderDetails['id']}}>
-                                                <button style="border: none; background: transparent; padding: 0; outline: none;">
-                                                    <i style="font-size: 20px; color: black" class="fas fa-edit"></i>
-                                                </button>
-                                            </form>
-                                            <form action="{{ route('document.delete')}}" method="POST" style="display: inline-block;">
-                                                @csrf
-                                                <input type="hidden" name="id" value={{$orderDetails['id']}}>
-                                                <input type="hidden" name="order_id_route" value={{$orderDetail['order']->id}}>
-                                                <button type="submit" style="border: none; background: transparent; padding: 0; outline: none;">
+                                                <input type="hidden" name="order_id_route"
+                                                       value={{$orderDetail['order']->id}}>
+                                                <button type="submit"
+                                                        style="border: none; background: transparent; padding: 0; outline: none;">
                                                     <i class="feather-trash-2" style="font-size: 24px;"></i>
                                                 </button>
                                             </form>
