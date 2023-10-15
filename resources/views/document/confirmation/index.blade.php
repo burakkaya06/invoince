@@ -335,10 +335,11 @@
         <script>
 
             var baseOrderId = 0;
-            debugger
+            var documentId = {{$detail['document_id']}};
+
 
             $('#saveDocument').click(function () {
-                debugger
+
 
                 let products = [];
                 let data = [];
@@ -368,7 +369,6 @@
                     }
                 });
 
-                debugger
 
                 $.ajax({
                     type: "POST",
@@ -383,23 +383,24 @@
                         totalAmount: totalAmount,
                         netTotal: netTotal,
                         vat: vat,
-                        noNew: $("#saveDocument").val()
+                        noNew: $("#saveDocument").val(),
+                        documentId: documentId
                     },
                     success: function (response) {
                         $('#saveDocument').text('Edit Document');
-                        debugger
+
                         baseOrderId = response.order_id;
                         Swal.fire({
                             type: 'success',
                             title: 'Success',
                             text: 'Successfully recorded',
                             confirmButtonClass: 'btn btn-confirm mt-2',
-                        })
-
-                        setTimeout(function () {
-                            window.location.href = "/order/detail/" + baseOrderId;
-                        }, 2000);
-
+                        }).then((result) => {
+                            // Swal kapatıldığında veya onaylandığında yönlendirme yapma
+                            if (result.isConfirmed || result.isDismissed) {
+                                window.location.href = "/order/detail/" + baseOrderId;
+                            }
+                        });
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         console.log("Bir hata oluştu!", errorThrown);
@@ -563,7 +564,7 @@
                             let existingRow = $('#producttable tbody tr[data-product-id="' + responseData.pid + '"]');
 
                             if (existingRow.length > 0) {
-                                debugger
+
                                 // Ürün zaten tabloda var, sadece miktarını ve toplamını güncelle
                                 let currentQuantity = parseInt(existingRow.find('td:eq(3) .quantity-value').text());
                                 let newQuantity = currentQuantity + count;
@@ -679,13 +680,13 @@
                 $('#printButton').on('click', function () {
 
                     let orderId = $('#orderIdName').text().trim();
-                    debugger
+
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     });
-                    debugger
+
                     $.ajax({
                         url: '/documents/print/control',
                         method: 'POST',
@@ -694,7 +695,7 @@
                             window.print();
                         },
                         error: function (error) {
-                            debugger
+
                             Swal.fire({
                                 type: 'error',
                                 title: 'Oops...',
@@ -709,13 +710,13 @@
             $('#printButton2').click(function () {
                 // Sayfa içeriğini al (Örnek olarak body'nin tüm içeriğini alıyoruz)
                 let orderId = $('#orderIdName').text().trim();
-                debugger
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
-                debugger
+
                 $.ajax({
                     url: '/documents/print',
                     method: 'POST',
@@ -724,7 +725,7 @@
                         responseType: 'blob'
                     },
                     success: function (response) {
-                        debugger
+
                         let blob = new Blob([response], {type: 'application/pdf'});
                         let link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
@@ -732,7 +733,7 @@
                         link.click();
                     },
                     error: function (error) {
-                        debugger
+
                         Swal.fire({
                             type: 'error',
                             title: 'Oops...',

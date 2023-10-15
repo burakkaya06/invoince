@@ -154,6 +154,7 @@ class DocumentService
                 }
             }
         }
+        $returnData['document_id'] = count($document) > 0 ? $document[0]['id'] : 0;
         return $returnData;
 
     }
@@ -164,6 +165,7 @@ class DocumentService
         $document = null;
         if ($request->noNew == 1) {
             $document = Documents::where('order_id' , $order->id)
+                ->where('id' , $request->documentId)
                 ->where('type' , DocumentType::CONFIRMATION)
                 ->first();
         }
