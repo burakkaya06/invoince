@@ -327,8 +327,11 @@
                     {{ $detail['editable'] !=true ? 'Create Document' : 'Edit Document' }}
                 </button>
 
-                <button type="button" style="float: right;" class="btn btn-primary print-only" id="printButton">Print
-                </button>
+                @if($detail['editable'] != true)
+
+                @else
+                    <button type="button" style="float: right;" class="btn btn-primary print-only" id="printButton">Print</button>
+                @endif
             </div>
         </div>
 
