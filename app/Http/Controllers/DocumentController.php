@@ -24,9 +24,9 @@ class DocumentController extends Controller
 
     public function deleteDocument(Request $request)
     {
-        $this->documentService->deleteDocument($request);
+        $type   = $this->documentService->deleteDocument($request);
         $orderId = $request->order_id_route;
-        return redirect()->route('order.detail',['id' => $orderId])->with('success' , 'Confirmation deleted successfully!');
+        return redirect()->route('order.detail',['id' => $orderId])->with('success' , $type.' deleted successfully!');
     }
 
     public function indexConfirmation(Request $request)
@@ -34,10 +34,22 @@ class DocumentController extends Controller
         $detail = $this->documentService->indexConfirmation($request);
         return view('document.confirmation.index',compact('detail'));
     }
+
+    public function indexDelivery(Request $request)
+    {
+        $detail = $this->documentService->indexDelivery($request);
+        return view('document.delivery.index',compact('detail'));
+    }
     public function editConfirmation(Request $request)
     {
         $detail = $this->documentService->editConfirmation($request);
         return view('document.confirmation.index',compact('detail'));
+    }
+
+    public function editDelivery(Request $request)
+    {
+        $detail = $this->documentService->editDelivery($request);
+        return view('document.delivery.index',compact('detail'));
     }
 
     public function searchCustomer(Request $request)
@@ -63,14 +75,21 @@ class DocumentController extends Controller
         return $pdf->stream();
     }
 
+
     public function saveDocumentConfirmation(Request $request) {
         $orderId = $this->documentService->saveDocument($request);
+        return response()->json(['order_id' => $orderId], 200);
+    }
+
+    public function saveDocumentDelivery(Request $request) {
+        $orderId = $this->documentService->saveDocumentDelivery($request);
         return response()->json(['order_id' => $orderId], 200);
     }
 
     public function printControl(Request $request) {
         $order = Documents::where('order_id_name', $request->order_id_name)
             ->where('type', $request->confirmation_type)
+            ->where('id', $request->id)
             ->first();
 
         if(!$order) {
