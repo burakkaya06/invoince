@@ -122,13 +122,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
-
-
-                        @if($detail['editable'] != true)
-                            <h4 class="mb-0 font-size-18">New/Edit Confirmation</h4>
-                        @else
-                            <h4 class="mb-0 font-size-18">Confirmation {{$detail['order_id_name']}}</h4>
-                        @endif
+                        <h4 class="mb-0 font-size-18">New/Edit Delivery Note</h4>
                     </div>
                 </div>
 
@@ -201,7 +195,7 @@
 
 
                     <div class="col-12" style="padding-top: 100px">
-                        <h1>Confirmation {{$detail['order_id_name']}}</h1>
+                        <h1>Delivery Note {{$detail['order_id_name']}}</h1>
                         <hr style="border-color: black; border-width: 1px; border-style: solid;">
                         <table id="producttable" style="width:100%; text-align:center; border-collapse: collapse;">
                             <thead>
@@ -381,7 +375,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/documents/save-document-confirmation",
+                    url: "/documents/save-document-delivery",
                     data: {
                         products: products,
                         date: date,
@@ -699,7 +693,7 @@
                     $.ajax({
                         url: '/documents/print/control',
                         method: 'POST',
-                        data: {order_id_name: orderId, confirmation_type: 'confirmation',id : documentId},
+                        data: {order_id_name: orderId, confirmation_type: 'delivery',id: documentId},
                         success: function (response) {
                             window.print();
                         },
@@ -716,42 +710,6 @@
                 });
             });
 
-            $('#printButton2').click(function () {
-                // Sayfa içeriğini al (Örnek olarak body'nin tüm içeriğini alıyoruz)
-                let orderId = $('#orderIdName').text().trim();
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    url: '/documents/print',
-                    method: 'POST',
-                    data: {order_id_name: orderId},
-                    xhrFields: {
-                        responseType: 'blob'
-                    },
-                    success: function (response) {
-
-                        let blob = new Blob([response], {type: 'application/pdf'});
-                        let link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.target = '_blank';
-                        link.click();
-                    },
-                    error: function (error) {
-
-                        Swal.fire({
-                            type: 'error',
-                            title: 'Oops...',
-                            text: 'No document found to print!',
-                            confirmButtonClass: 'btn btn-confirm mt-2',
-                        })
-                    }
-                });
-            });
 
 
         </script>

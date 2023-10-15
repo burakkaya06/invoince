@@ -62,6 +62,12 @@ Route::post('/documents/print' , [ DocumentController::class , 'printContent' ])
 Route::post('/documents/print/control' , [ DocumentController::class , 'printControl' ])->name('document.print.control');
 Route::post('/documents/save-document-confirmation' , [ DocumentController::class , 'saveDocumentConfirmation' ])->name('document.save.confirmation');
 
+Route::post('/documents/delivery' , [ DocumentController::class , 'indexDelivery' ])->name('document.delivery');
+Route::post('/documents/save-document-delivery' , [ DocumentController::class , 'saveDocumentDelivery' ])->name('document.save.delivery');
+Route::post('/documents/delivery-edit' , [ DocumentController::class , 'editDelivery' ])->name('document.delivery.edit');
+
+
+
 
 
 
