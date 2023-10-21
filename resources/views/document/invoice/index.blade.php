@@ -122,10 +122,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-title-box d-flex align-items-center justify-content-between">
+
                         @if($detail['editable'] != true)
-                            <h4 class="mb-0 font-size-18">New/Edit Delivery Note</h4>
+                            <h4 class="mb-0 font-size-18">New/Edit Invoice</h4>
                         @else
-                            <h4 class="mb-0 font-size-18">Delivery Note {{$detail['order_id_name']}}</h4>
+                            <h4 class="mb-0 font-size-18">Invoice {{$detail['order_id_name']}}</h4>
                         @endif
                     </div>
                 </div>
@@ -199,7 +200,7 @@
 
 
                     <div class="col-12" style="padding-top: 100px">
-                        <h1>Delivery Note {{$detail['order_id_name']}}</h1>
+                        <h1>Invoice {{$detail['order_id_name']}}</h1>
                         <hr style="border-color: black; border-width: 1px; border-style: solid;">
                         <table id="producttable" style="width:100%; text-align:center; border-collapse: collapse;">
                             <thead>
@@ -379,14 +380,14 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "/documents/save-document-delivery",
+                    url: "/documents/save-document-invoice",
                     data: {
                         products: products,
                         date: date,
                         deliveryDate: deliveryDate,
                         customer: customer,
                         orderId: orderId,
-                        type: 'delivery',
+                        type: 'invoice',
                         totalAmount: totalAmount,
                         netTotal: netTotal,
                         vat: vat,
@@ -697,7 +698,7 @@
                     $.ajax({
                         url: '/documents/print/control',
                         method: 'POST',
-                        data: {order_id_name: orderId, confirmation_type: 'delivery',id: documentId},
+                        data: {order_id_name: orderId, confirmation_type: 'invoice',id: documentId},
                         success: function (response) {
                             window.print();
                         },
