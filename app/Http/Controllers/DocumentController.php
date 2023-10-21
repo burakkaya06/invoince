@@ -40,6 +40,12 @@ class DocumentController extends Controller
         $detail = $this->documentService->indexDelivery($request);
         return view('document.delivery.index',compact('detail'));
     }
+
+    public function indexInvoince(Request $request)
+    {
+        $detail = $this->documentService->indexInvoice($request);
+        return view('document.invoice.index',compact('detail'));
+    }
     public function editConfirmation(Request $request)
     {
         $detail = $this->documentService->editConfirmation($request);
@@ -50,6 +56,12 @@ class DocumentController extends Controller
     {
         $detail = $this->documentService->editDelivery($request);
         return view('document.delivery.index',compact('detail'));
+    }
+
+    public function editInvoice(Request $request)
+    {
+        $detail = $this->documentService->editInvoice($request);
+        return view('document.invoice.index',compact('detail'));
     }
 
     public function searchCustomer(Request $request)
@@ -83,6 +95,11 @@ class DocumentController extends Controller
 
     public function saveDocumentDelivery(Request $request) {
         $orderId = $this->documentService->saveDocumentDelivery($request);
+        return response()->json(['order_id' => $orderId], 200);
+    }
+
+    public function saveDocumentInvoice(Request $request) {
+        $orderId = $this->documentService->saveDocumentInvoice($request);
         return response()->json(['order_id' => $orderId], 200);
     }
 
