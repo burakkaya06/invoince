@@ -48,13 +48,16 @@
                                 Create Delivery Note
                             </button>
                         </form>
-                        <button
-                            type="button"
-                            class="btn header-item waves-effect mr-2"
-                            style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;"> Create
-                            Invoince
-
-                        </button>
+                        <form action="{{ route('document.invoice') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="id" value={{$orderDetail['order']->id}}>
+                            <button
+                                type="submit"
+                                class="btn header-item waves-effect mr-2"
+                                style="background-color: #000; color: #fff; border-radius: 100px; height: 30px;">
+                                Create Invoince
+                            </button>
+                        </form>
                     </div>
 
                 </div>
@@ -106,6 +109,17 @@
                                                 </form>
                                             @elseif($orderDetails['type'] == 'delivery')
                                                 <form action="{{ route('document.delivery.edit') }}" method="POST"
+                                                      style="display: inline-block;">
+                                                    @csrf
+                                                    <input type="hidden" name="id" value={{$orderDetails['id']}}>
+                                                    <button
+                                                        style="border: none; background: transparent; padding: 0; outline: none;">
+                                                        <i style="font-size: 20px; color: black"
+                                                           class="fas fa-edit"></i>
+                                                    </button>
+                                                </form>
+                                            @elseif($orderDetails['type'] == 'invoice')
+                                                <form action="{{ route('document.invoice.edit') }}" method="POST"
                                                       style="display: inline-block;">
                                                     @csrf
                                                     <input type="hidden" name="id" value={{$orderDetails['id']}}>

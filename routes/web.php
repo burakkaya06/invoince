@@ -66,6 +66,12 @@ Route::post('/documents/delivery' , [ DocumentController::class , 'indexDelivery
 Route::post('/documents/save-document-delivery' , [ DocumentController::class , 'saveDocumentDelivery' ])->name('document.save.delivery');
 Route::post('/documents/delivery-edit' , [ DocumentController::class , 'editDelivery' ])->name('document.delivery.edit');
 
+Route::post('/documents/invoice' , [ DocumentController::class , 'indexInvoince' ])->name('document.invoice');
+Route::post('/documents/invoice-edit' , [ DocumentController::class , 'editInvoice' ])->name('document.invoice.edit');
+Route::post('/documents/save-document-invoice' , [ DocumentController::class , 'saveDocumentInvoice' ])->name('document.save.invoice');
+
+
+
 
 
 
