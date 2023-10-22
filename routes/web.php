@@ -27,7 +27,7 @@ Route::post('/login' , [ LoginController::class , 'login' ])->name('login');
 Route::post('/logout' , [ LoginController::class , 'logout' ])->name('logout');
 Route::get('/dashboard' , [ DashboardController::class , 'index' ])->name('dashboard');
 
-Route::get('/customers' , [ CustomerController::class , 'index' ])->name('customers.index');
+Route::get('/customers' , [ CustomerController::class , 'index' ])->name('customers.index')->middleware('auth');;
 Route::post('/customers' , [ CustomerController::class , 'store' ])->name('customers.store');
 Route::delete('/customer/{id}' , [ CustomerController::class , 'delete' ])->name('customer.delete');
 Route::put('/customer/update/{id}' , [ CustomerController::class , 'update' ])->name('customer.update');
