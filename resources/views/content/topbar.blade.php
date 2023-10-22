@@ -13,8 +13,9 @@
 
         <div class="d-flex align-items-center">
 
-            
 
+
+          <!--
             <div class="dropdown d-inline-block ml-2">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -52,6 +53,8 @@
                     </a>
                 </div>
             </div>
+
+          -->
 
         </div>
     </div>

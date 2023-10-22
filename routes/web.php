@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HtmlController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
@@ -21,20 +22,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::get('/' , [ LoginController::class , 'index' ])->name('index')->middleware('guest');;
 Route::post('/login' , [ LoginController::class , 'login' ])->name('login');
 Route::post('/logout' , [ LoginController::class , 'logout' ])->name('logout');
 Route::get('/dashboard' , [ DashboardController::class , 'index' ])->name('dashboard');
 
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group([ 'middleware' => [ 'auth' ] ] , function () {
     Route::get('/customers' , [ CustomerController::class , 'index' ])->name('customers.index');
     Route::post('/customers' , [ CustomerController::class , 'store' ])->name('customers.store');
     Route::delete('/customer/{id}' , [ CustomerController::class , 'delete' ])->name('customer.delete');
     Route::put('/customer/update/{id}' , [ CustomerController::class , 'update' ])->name('customer.update');
     Route::get('/customer/show/{id}' , [ CustomerController::class , 'show' ])->name('customer.edit');
-    Route::post('/customer/check-customer-id', [CustomerController::class, 'checkId'])->name('customer.checkid');
+    Route::post('/customer/check-customer-id' , [ CustomerController::class , 'checkId' ])->name('customer.checkid');
 
     Route::get('/products' , [ ProductController::class , 'index' ])->name('product.index');
     Route::get('/products/custom-search' , [ ProductController::class , 'custom' ])->name('product.custom');
@@ -71,6 +71,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/documents/invoice' , [ DocumentController::class , 'indexInvoince' ])->name('document.invoice');
     Route::post('/documents/invoice-edit' , [ DocumentController::class , 'editInvoice' ])->name('document.invoice.edit');
     Route::post('/documents/save-document-invoice' , [ DocumentController::class , 'saveDocumentInvoice' ])->name('document.save.invoice');
+
+    //Offers
+
+    Route::get('/offers' , [ OffersController::class , 'index' ])->name('offers.index');
 });
 
 
