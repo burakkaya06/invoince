@@ -33,7 +33,7 @@
 
 
                 <li><a  href="{{ route('product.index') }}" class=" waves-effect"><i class="feather-aperture"></i><span>Product</span></a></li>
-                <li><a  href="{{ route('html.index') }}" class=" waves-effect"><i class="feather-aperture"></i><span>Html</span></a></li>
+               <!-- <li><a  href="{{ route('html.index') }}" class=" waves-effect"><i class="feather-aperture"></i><span>Html</span></a></li>-->
 
                 <li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
