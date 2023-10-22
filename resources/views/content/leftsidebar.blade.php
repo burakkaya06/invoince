@@ -18,11 +18,10 @@
                 <li class="menu-title">Menu</li>
 
                 <li>
-                    <a href="index.html" class="waves-effect"><i class="feather-airplay"></i><span
-                            class="badge badge-pill badge-primary float-right">7</span><span>Dashboard</span></a>
+                    <a  href="{{ route('dashboard') }}" class="waves-effect"><i class="feather-airplay"></i><span>Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="index.html" class="waves-effect"><i class="feather-users"></i><span>Offers</span></a>
+                    <a href="{{ route('offers.index') }}" class="waves-effect"><i class="feather-users"></i><span>Offers</span></a>
                 </li>
                 <li>
                     <a href="{{ route('order.index') }}"><i class="feather-user"></i><span>Orders</span></a>
